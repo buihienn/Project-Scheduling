@@ -1,6 +1,6 @@
-#include "CPUScheduling.h"
+#include "CPUScheduler.h"
 
-void print(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes){
+void exportData(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes){
     for (int i = 0; i < CPU.size(); i++){
         if (CPU[i] == 0){
             std::cout << "- ";

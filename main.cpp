@@ -1,18 +1,33 @@
-#include "CPUScheduling.h"
+#include "CPUScheduler.h"
+#include "Inputdata.h"
 
-int main(){
+int main(int argc, char* argv[]) {
+    if (argc != 3){
+        std::cout << "Syntax: " << "22127106_22127229.exe" << " <INPUT_FILE> <OUTPUT_FILE> \n";
+        return 0;
+    }
     std::vector <Process> processes;
-    std::vector <int> burstTimeP1 {3,3,4};
-    std::vector <int> burstTimeP2 {4};
-    std::vector <int> burstTimeP3 {3,3};
-    Process p1(1, 5, burstTimeP1);
-    Process p2(2, 3, burstTimeP2);
-    Process p3(3, 2, burstTimeP3);
-    processes.push_back(p1);
-    processes.push_back(p2);
-    processes.push_back(p3);
-    std::vector <int> test;
+    int ID_Algorithm = 0;
+    int quantumTime = 0;
+    inputData(argv[1], processes, ID_Algorithm, quantumTime);
 
-    FCFS_Excuted(processes);
+    if (ID_Algorithm == 1){
+        FCFS(processes);
+    }
+    else if (ID_Algorithm == 2){
+
+    }
+    else if (ID_Algorithm == 3){
+        
+    }
+    else if (ID_Algorithm == 4){
+        
+    }
+    else {
+        std::cout <<"Unknow ID Algorithm !" << std::endl;
+        return 0;
+    }
+
+    
     return 0;
 }
