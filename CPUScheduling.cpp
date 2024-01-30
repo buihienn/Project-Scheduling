@@ -1,231 +1,105 @@
 #include "CPUScheduling.h"
 
-void print(std::vector <int> t){
-    for (int i = 0; i < t.size(); i++){
-        if (t[i] == 0){
+void print(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes){
+    for (int i = 0; i < CPU.size(); i++){
+        if (CPU[i] == 0){
             std::cout << "- ";
         }
         else {
-            std::cout << t[i] << " ";
+            std::cout << CPU[i] << " ";
         }
     }
-    std::cout << "\n" << t.size();
-}
+    std::cout << "\n" << CPU.size() << "\n";
 
+    for (int i = 0; i < R.size(); i++){
+        if (R[i] == 0){
+            std::cout << "- ";
+        }
+        else {
+            std::cout << R[i] << " ";
+        }
+    }
+    std::cout << "\n" << R.size() << "\n";
 
-// void FCFS(std::vector <Process> &processes,  std::vector <int> &timeLine, int count){
-
-//     int curTime = 0;
-//     for (int i = 0; i < processes.size(); i++){
-//         // int tempWaitingTime = std::max(0, curTime - processes[i].getArrTime());
-//         int tempWaitingTime = 0;
-//         int temp = 0;
-//         if (processes[i].getArrTime() - curTime > 0){
-//             temp = processes[i].getArrTime() - curTime;
-//             curTime += processes[i].getArrTime() - curTime + processes[i].getBurstTime(count);
-//         }
-//         else {
-//             tempWaitingTime = curTime - processes[i].getArrTime();
-//             curTime += processes[i].getBurstTime(count);
-//         }
-//         int waitingTime = processes[i].getWaitingTime() + tempWaitingTime;
-//         int turnaroundTime = waitingTime + processes[i].getTurnaroundTime() + processes[i].getBurstTime(count);
-
-//         processes[i].setWaitingTime(waitingTime);
-//         processes[i].setTurnAroundTime(turnaroundTime);
-
-//         for (int j = 0; j < temp; j++) {
-//             // std::cout << "- ";
-//             timeLine.push_back(0);
-//         }
-//         for (int j = 0; j < processes[i].getBurstTime(count); ++j) {
-//             // std::cout << processes[i].getName() << " ";
-//             timeLine.push_back(processes[i].getName());
-//         }
-//         // std::cout <<"Turn vs Waitingtime: \n";
-//         // std::cout <<turnaroundTime << " - " << tempWaitingTime << " " << waitingTime << " - " << curTime <<"\n";
-//         // Update current time
-//     }
-// }
-
-void Register(std::vector <Process> &processes, std::vector <int> &timeR, int count){
-
-}
-
-// bool checkOut(std::vector <Process> processes){
-//     for (int i = 0; i < processes.size(); i++){
-//         if (processes[i].getBurstTime(processes[i].getNumBurstTime() -1 ) != 0){
-//             return false;
-//         }
-//     }
-//     return true;
-// }
-
-// void Do(std::vector <Process> &processes){
-//     std::vector <Process*> listCPU; // In Ready Queue or in processing
-//     std::vector <Process*> listR; // In Wait list or processing
-//     std::vector <int> CPU; // display name of Process at time
-//     std::vector <int> R; // display name of Process at time
-//     // Sort arrivalTime
-//     sort(processes.begin(), processes.end(), [](Process& a,Process& b) {
-//         return a.getArrTime() <= b.getArrTime();
-//     });
-
-//     int curTime = 0;
-//     while(true){
-//         if (checkOut(processes) == true)
-//             break;
-//         // Put process into CPU
-//         for (int i = 0; i < processes.size();i ++){
-//             if (processes[i].getArrTime() == curTime){
-//                 listCPU.push_back(&processes[i]);
-//                 processes[i].setStatus(1);
-//             }
-//         }
-//         if (!listCPU.empty()){
-//             CPU.push_back(listCPU[0]->getName());
-//             listCPU[0]->BurstTimeSub(listCPU[0]->getStatus()); // burtTime-- 
-//             if (listCPU[0]->getBurstTime(listCPU[0]->getStatus()) == 0){
-//                 listCPU[0]->setStatus(listCPU[0]->getStatus() + 1);
-//                 listCPU.erase(listCPU.begin());
-//             }
-//         }
-//         else {
-//             CPU.push_back(0);
-//         }
-        
-//     }
-
-// }   
-
-void checkOut(std::vector <Process>& processes, bool &check){
     for (int i = 0; i < processes.size(); i++){
-        if (processes[i].burstTime.back() != 0){
-            check == false;
-            return;
-        }
+        std::cout <<processes[i].turnaroundTime << " ";
     }
-    check == true;
+    std::cout << std::endl;
+    for (int i = 0; i < processes.size(); i++){
+        std::cout <<processes[i].waitingTime << " ";
+    }
 }
 
-void Do(std::vector <Process> &processes){
-    std::vector <Process*> listCPU; // In Ready Queue or in processing
-    std::vector <Process*> listR; // In Wait list or processing
-    std::vector <int> CPU; // display name of Process at time
-    std::vector <int> R; // display name of Process at time
-    // Sort arrivalTime
-    sort(processes.begin(), processes.end(), [](Process& a,Process& b) {
-        return a.arrTime <= b.arrTime;
-    });
-    bool check =false;
-    int curTime = 0;
-    while(true){
-        checkOut(processes, check);
-        if (check == true){
-            std::cout <<"xx";
-            break;
-        }
-
-        // Put process into CPU
-        for (int i = 0; i < processes.size();i ++){
-            if (processes[i].arrTime == curTime){
-                listCPU.push_back(&processes[i]);
+void calTurnaroundTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R){
+    for (int i = 0; i < processes.size();i ++){
+        int maxCPU = 0;
+        int maxR = 0;
+        for (int j = CPU.size() - 1; j >= 0l; j--){
+            if (CPU[j] == processes[i].name){
+                maxCPU = j;
+                break;
             }
         }
-        if (!listCPU.empty()){
-            CPU.push_back(listCPU[0]->name);
-            listCPU[0]->burstTime[listCPU[0]->status]--; // burstTime-- 
-            std::cout <<listCPU[0]->burstTime[2] << " ";
-            if (listCPU[0]->burstTime[listCPU[0]->status] == 0){
-                listCPU[0]->status++;
-                if (listCPU[0]->status < listCPU[0]->burstTime.size()){
-                    listR.push_back(listCPU[0]);
-                }
-                listCPU.erase(listCPU.begin());
+        for (int j = R.size() - 1; j >= 0l; j--){
+            if (R[j] == processes[i].name){
+                maxR = j;
+                break;
             }
         }
-        else {
-            CPU.push_back(0);
-        }
-        if (!listR.empty()){
-            R.push_back(listR[0]->name);
-            listR[0]->burstTime[listR[0]->status]--;
-            if (listR[0]->burstTime[listR[0]->status] == 0){
-                listR[0]->status++;
-                if (listR[0]->status < listR[0]->burstTime.size()){
-                    listCPU.push_back(listR[0]);
-                }
-                listR.erase(listR.begin());
-            }
-        }
-        else {
-            R.push_back(0);
-        }
-        curTime++;
+        processes[i].turnaroundTime = std::max(maxCPU, maxR) - processes[i].arrTime + 1;
     }
+}
 
-    print(CPU);
-    std::cout <<std::endl;
-    print(R);
-}   
-
-void Test(std::vector <Process> &processes){
-    std::vector <Process*> listCPU; // In Ready Queue or in processing
-    std::vector <Process*> listR; // In Wait list or processing
-    std::vector <int> CPU; // display name of Process at time
-    std::vector <int> R; // display name of Process at time
-    // Sort arrivalTime
-    sort(processes.begin(), processes.end(), [](Process& a,Process& b) {
-        return a.arrTime <= b.arrTime;
-    });
-    int curTime = 0;
-    bool check = false;
-    for (int k = 0; k < 27; k++){
-        for (int i = 0; i < processes.size();i ++){
-            if (processes[i].arrTime == curTime){
-                listCPU.push_back(&processes[i]);
+void calWaitingTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R){
+    // Y tuong luu cac doan P ket thuc va Tiep tuc chay lai roi tru di cac noi khong phai waiting!
+    for (int i = 0; i < processes.size();i++){
+        std::vector <int> posInCPU; // index 0 is used to cal waitingTime of arrivalTime - // others is cal waiting for other processing.
+        // Index 0 
+        if (processes[i].name == CPU[0]){
+            posInCPU.push_back(0);
+            if (CPU[1] != processes[i].name){
+                posInCPU.push_back(0);
             }
         }
-        if (!listCPU.empty()){
-            // std::cout << listCPU[0]->burstTime[0];
-            CPU.push_back(listCPU[0]->name);
-            listCPU[0]->burstTime[listCPU[0]->status]--; // burstTime-- 
-            if (listCPU[0]->burstTime[listCPU[0]->status] == 0){
-                listCPU[0]->status++;
-                // std::cout <<listCPU[0]->status << " ";
-                if (listCPU[0]->status < listCPU[0]->burstTime.size()){
-                    listR.push_back(listCPU[0]);
-                    check = true;
+        // Save pos process in CPU
+        for (int j = 1; j < CPU.size() - 1; j++){
+            if(posInCPU.empty()){
+                if (CPU[j] == processes[i].name){
+                    posInCPU.push_back(j);
                 }
-                listCPU.erase(listCPU.begin());
-            }
-            
-        }
-        else {
-            CPU.push_back(0);
-        }
-        if (!listR.empty() && check == true){
-            R.push_back(0);
-            check = false;
-        }
-        else if (!listR.empty()){
-            R.push_back(listR[0]->name);
-            listR[0]->burstTime[listR[0]->status]--;
-            // std::cout <<listR[0]->burstTime[1] << " ";
-            if (listR[0]->burstTime[listR[0]->status] == 0){
-                listR[0]->status++;
-                if (listR[0]->status < listR[0]->burstTime.size()){
-                    listCPU.push_back(listR[0]);
+                // Case: P is alone
+                if (CPU[j] == processes[i].name && CPU[j+1] != processes[i].name){
+                    posInCPU.push_back(j);
                 }
-                listR.erase(listR.begin());
+            }
+            else {
+                if ((CPU[j] == processes[i].name && CPU[j -1] != processes[i].name) || (CPU[j] == processes[i].name && CPU[j + 1] != processes[i].name)){
+                    posInCPU.push_back(j);
+                }
             }
         }
-        else {
-            R.push_back(0);
+        // Index last
+        if (processes[i].name == CPU[CPU.size() -1] && CPU[CPU.size() - 2] != processes[i].name){
+            posInCPU.push_back(CPU.size() -1);
         }
-        curTime++;
+        // Save pos process in Resources
+        int temp = (posInCPU.size() - 1) /2; // So khoang can tinh
+        int indexPosCPU = 1; // chi lay so le vi posInCPU[0] la de tinh ArrivalTime
+        for (int j = 1; j <= temp; j++){
+            bool flag = false;
+            for (int k = posInCPU[indexPosCPU] + 1; k <= posInCPU[indexPosCPU +1]; k++){
+                if (R[k] == processes[i].name && R[k+1] != processes[i].name){
+                    processes[i].waitingTime += posInCPU[indexPosCPU+1] - k - 1;
+                    flag = true;
+                }
+            }
+            // Case: Khong co  P trong R o khoang nay
+            if (flag == false){
+                processes[i].waitingTime += posInCPU[indexPosCPU+1] - posInCPU[indexPosCPU] - 1;
+            }
+            indexPosCPU += 2; 
+        }
+        // Cal WaitingTime
+        processes[i].waitingTime += posInCPU[0] - processes[i].arrTime;
     }
-    print(CPU);
-    std::cout <<"\n";
-    print(R);
 }

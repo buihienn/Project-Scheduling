@@ -1,12 +1,10 @@
 #pragma once
 #include "Process.h"
+#include "FCFS.h"
 #include <algorithm>
 #include <iostream>
 
 
-void FCFS(std::vector <Process> &processes,  std::vector <int> &timeLine, int count);
-void print(std::vector <int> t);
-bool checkOut(std::vector <Process>& processes);
-void Do(std::vector <Process> &processes);
-
-void Test(std::vector <Process> &processes);
+void print(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes);
+void calTurnaroundTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R);
+void calWaitingTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R);
