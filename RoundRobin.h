@@ -10,6 +10,8 @@ public:
     RoundRobin (){}
     RoundRobin (std::vector <Process> &processes, int quantumTime);
     void excuted() override;
+
+    void checkAndUpdateQuantumTime(int &tempQuantum);
 };
 
 bool checkOutRR(std::vector <Process>& processes);

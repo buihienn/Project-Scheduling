@@ -1,5 +1,6 @@
 #include "RoundRobin.h"
 #include "FCFS.h"
+#include "SJF.h"
 #include "Inputdata.h"
 
 int main(int argc, char* argv[]) {
@@ -20,7 +21,7 @@ int main(int argc, char* argv[]) {
         scheduler = new RoundRobin(processes, quantumTime);
     }
     else if (ID_Algorithm == 3){
-        
+        scheduler = new SJF(processes);
     }
     else if (ID_Algorithm == 4){
         

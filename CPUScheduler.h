@@ -16,4 +16,6 @@ public:
     void exportData();
     void calTurnaroundTime();
     void calWaitingTime();
+    bool checkOut(std::vector <Process>& processes);
+    void checkToPush(std::vector <Process*> &address, std::vector <Process*> &destination);
 };

@@ -103,3 +103,20 @@ void Scheduler::calWaitingTime(){
         processes[i].waitingTime += posInCPU[0] - processes[i].arrTime;
     }
 }
+
+
+bool Scheduler::checkOut(std::vector <Process>& processes){
+    for (int i = 0; i < processes.size(); i++){
+        if (processes[i].burstTime.back() != 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+void Scheduler::checkToPush(std::vector <Process*> &address, std::vector <Process*> &destination){
+    if (!address.empty()){
+        destination.push_back(address[0]);
+        address.pop_back();
+    }
+}

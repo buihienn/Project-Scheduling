@@ -5,19 +5,15 @@ RoundRobin::RoundRobin (std::vector <Process> &processes, int quantumTime){
     this->quantumTime = quantumTime;
 }
 
-bool checkOutRR(std::vector <Process>& processes){
-    for (int i = 0; i < processes.size(); i++){
-        if (processes[i].burstTime.back() != 0){
-            return false;
+void RoundRobin::checkAndUpdateQuantumTime(int &tempQuantum){
+    if (tempQuantum == 0){
+        if (readyQueue.size() > 1){
+            std::vector <Process*> swap;
+            swap.push_back(readyQueue[0]);
+            readyQueue.erase(readyQueue.begin());
+            readyQueue.push_back(swap[0]);
         }
-    }
-    return true;
-}
-
-void checkToPushRR(std::vector <Process*> &address, std::vector <Process*> &destination){
-    if (!address.empty()){
-        destination.push_back(address[0]);
-        address.pop_back();
+        tempQuantum = quantumTime;
     }
 }
 
@@ -30,7 +26,7 @@ void RoundRobin::excuted(){
         return a.arrTime <= b.arrTime;
     });
     while (true){
-        if (checkOutRR(processes) == true){
+        if (checkOut(processes) == true){
             break;
         }
         // Put process into CPU
@@ -40,18 +36,10 @@ void RoundRobin::excuted(){
             }
         }
 
-        if (tempQuantum == 0){
-            if (readyQueue.size() > 1){
-                std::vector <Process*> swap;
-                swap.push_back(readyQueue[0]);
-                readyQueue.erase(readyQueue.begin());
-                readyQueue.push_back(swap[0]);
-            }
-            tempQuantum = quantumTime;
-        }
+        checkAndUpdateQuantumTime(tempQuantum);
 
-        checkToPushRR(addressToPush_ListR, listR);
-        checkToPushRR(addressToPush_ReadyQueue, readyQueue);
+        checkToPush(addressToPush_ListR, listR);
+        checkToPush(addressToPush_ReadyQueue, readyQueue);
 
         if  (!readyQueue.empty()){
             CPU.push_back(readyQueue[0]->name);
