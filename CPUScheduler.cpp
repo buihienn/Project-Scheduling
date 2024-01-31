@@ -3,7 +3,7 @@
 void exportData(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes){
     for (int i = 0; i < CPU.size(); i++){
         if (CPU[i] == 0){
-            std::cout << "- ";
+            std::cout << "_ ";
         }
         else {
             std::cout << CPU[i] << " ";
@@ -13,7 +13,7 @@ void exportData(std::vector <int> CPU, std::vector <int> R, std::vector <Process
 
     for (int i = 0; i < R.size(); i++){
         if (R[i] == 0){
-            std::cout << "- ";
+            std::cout << "_ ";
         }
         else {
             std::cout << R[i] << " ";

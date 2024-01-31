@@ -1,4 +1,6 @@
 #include "CPUScheduler.h"
+#include "RoundRobin.h"
+#include "FCFS.h"
 #include "Inputdata.h"
 
 int main(int argc, char* argv[]) {
@@ -15,7 +17,7 @@ int main(int argc, char* argv[]) {
         FCFS(processes);
     }
     else if (ID_Algorithm == 2){
-
+        RR(processes, quantumTime);
     }
     else if (ID_Algorithm == 3){
         
