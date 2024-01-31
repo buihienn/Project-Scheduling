@@ -4,15 +4,6 @@ SJF::SJF(std::vector <Process> &processes){
     this->processes = processes;
 }
 
-bool checkOutSJF(std::vector <Process>& processes){
-    for (int i = 0; i < processes.size(); i++){
-        if (processes[i].burstTime.back() != 0){
-            return false;
-        }
-    }
-    return true;
-}
-
 void SJF::excuted(){
     
     std::vector<Process*> temp1;
@@ -24,7 +15,7 @@ void SJF::excuted(){
     int curTime = 0;
     bool check = false;
     while(true){
-        if (checkOutSJF(processes) == true){
+        if (checkOut(processes) == true){
             break;
         }
 

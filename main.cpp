@@ -1,6 +1,7 @@
 #include "RoundRobin.h"
 #include "FCFS.h"
 #include "SJF.h"
+#include "SRTN.h"
 #include "Inputdata.h"
 
 int main(int argc, char* argv[]) {
@@ -24,7 +25,7 @@ int main(int argc, char* argv[]) {
         scheduler = new SJF(processes);
     }
     else if (ID_Algorithm == 4){
-        
+        scheduler = new SRTN(processes);
     }
     else {
         std::cout <<"Unknow ID Algorithm !" << std::endl;
