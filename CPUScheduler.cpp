@@ -1,6 +1,6 @@
 #include "CPUScheduler.h"
-
-void exportData(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes){
+ 
+ void Scheduler::exportData(){
     for (int i = 0; i < CPU.size(); i++){
         if (CPU[i] == 0){
             std::cout << "_ ";
@@ -30,7 +30,7 @@ void exportData(std::vector <int> CPU, std::vector <int> R, std::vector <Process
     }
 }
 
-void calTurnaroundTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R){
+void Scheduler::calTurnaroundTime(){
     for (int i = 0; i < processes.size();i ++){
         int maxCPU = 0;
         int maxR = 0;
@@ -50,7 +50,7 @@ void calTurnaroundTime(std::vector<Process> &processes, std::vector <int> &CPU, 
     }
 }
 
-void calWaitingTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R){
+void Scheduler::calWaitingTime(){
     // Y tuong luu cac doan P ket thuc va Tiep tuc chay lai roi tru di cac noi khong phai waiting!
     for (int i = 0; i < processes.size();i++){
         std::vector <int> posInCPU; // index 0 is used to cal waitingTime of arrivalTime - // others is cal waiting for other processing.

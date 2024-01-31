@@ -3,6 +3,14 @@
 #include <algorithm>
 #include <iostream>
 #include "CPUScheduler.h"
-bool checkOutRR(std::vector <Process>& processes);
-void checkToPushRR(std::vector <Process*> &address, std::vector <Process*> &destination);
-void FCFS(std::vector <Process> &processes);
+
+class FCFS :public Scheduler {
+public:
+    FCFS() {}
+    FCFS(std::vector <Process> &processes);
+    void excuted() override;
+};
+
+bool checkOut(std::vector <Process>& processes);
+void checkToPush(std::vector <Process*> &address, std::vector <Process*> &destination);
+

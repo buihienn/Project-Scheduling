@@ -1,5 +1,10 @@
 #include "RoundRobin.h"
 
+RoundRobin::RoundRobin (std::vector <Process> &processes, int quantumTime){
+    this->processes = processes;
+    this->quantumTime = quantumTime;
+}
+
 bool checkOutRR(std::vector <Process>& processes){
     for (int i = 0; i < processes.size(); i++){
         if (processes[i].burstTime.back() != 0){
@@ -16,12 +21,7 @@ void checkToPushRR(std::vector <Process*> &address, std::vector <Process*> &dest
     }
 }
 
-
-void RR(std::vector <Process> &processes, int quantumTime){
-    std::vector <Process*> readyQueue;
-    std::vector <Process*> listR;
-    std::vector <int> CPU;
-    std::vector <int> R;
+void RoundRobin::excuted(){
     std::vector <Process*> addressToPush_ReadyQueue;
     std::vector <Process*> addressToPush_ListR;
     int curTime = 0;
@@ -86,8 +86,6 @@ void RR(std::vector <Process> &processes, int quantumTime){
         }
         curTime++;
     }
-
-    calTurnaroundTime(processes, CPU, R);
-    calWaitingTime(processes, CPU, R);
-    exportData(CPU,R,processes);
+    calTurnaroundTime();
+    calWaitingTime();
 }

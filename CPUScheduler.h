@@ -2,7 +2,18 @@
 #include "Process.h"
 #include <iostream>
 
+class Scheduler {
+protected:
+    std::vector <Process> processes;
+    std::vector <Process*> readyQueue;
+    std::vector <Process*> listR;
+    std::vector <int> CPU;
+    std::vector <int> R;
+public:
+    Scheduler(){}
 
-void exportData(std::vector <int> CPU, std::vector <int> R, std::vector <Process>& processes);
-void calTurnaroundTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R);
-void calWaitingTime(std::vector<Process> &processes, std::vector <int> &CPU, std::vector<int> &R);
+    virtual void excuted() = 0;
+    void exportData();
+    void calTurnaroundTime();
+    void calWaitingTime();
+};

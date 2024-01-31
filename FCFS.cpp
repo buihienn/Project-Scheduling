@@ -1,5 +1,10 @@
 #include "FCFS.h"
 
+FCFS::FCFS(std::vector <Process> &processes){
+    this->processes = processes;
+}
+
+
 bool checkOut(std::vector <Process>& processes){
     for (int i = 0; i < processes.size(); i++){
         if (processes[i].burstTime.back() != 0){
@@ -16,11 +21,7 @@ void checkToPush(std::vector <Process*> &address, std::vector <Process*> &destin
     }
 }
 
-void FCFS(std::vector <Process> &processes){
-    std::vector <Process*> readyQueue; // In Ready Queue or in processing
-    std::vector <Process*> listR; // In Wait list or processing
-    std::vector <int> CPU; // display name of Process at time
-    std::vector <int> R; // display name of Process at time
+void FCFS::excuted(){
     std::vector <Process*> addressToPush_ReadyQueue;
     std::vector <Process*> addressToPush_ListR;
     // Sort arrivalTime
@@ -73,7 +74,7 @@ void FCFS(std::vector <Process> &processes){
 
         curTime++;
     }
-    calTurnaroundTime(processes, CPU, R);
-    calWaitingTime(processes, CPU, R);
-    exportData(CPU,R,processes);
+    calTurnaroundTime();
+    calWaitingTime();
 }   
+

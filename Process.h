@@ -13,4 +13,3 @@ struct Process {
     Process (int name, int arrTime, std::vector <int> burstTime,  int waitingTime, int turnaroundTime,int status);
     Process (int name, int arrTime, std::vector <int> burstTime);
 };
-

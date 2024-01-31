@@ -11,4 +11,3 @@
 
 
 void inputData(std::string filename, std::vector <Process> &processes,int &ID_Algorithm, int &quantumTime);
-
