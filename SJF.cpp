@@ -4,7 +4,7 @@ SJF::SJF(std::vector <Process> &processes){
     this->processes = processes;
 }
 
-void SJF::excuted(){
+void SJF::executed(){
     
     std::vector<Process*> tempR;
     std::vector<Process*> tempReadyQueue;

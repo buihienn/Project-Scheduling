@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
         std::cout <<"Unknow ID Algorithm !" << std::endl;
         return 0;
     }
-    scheduler->excuted();
+    scheduler->executed();
     scheduler->exportData(argv[2]);
     delete scheduler;
     

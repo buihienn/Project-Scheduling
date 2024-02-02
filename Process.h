@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 
-struct Process {
+class Process {
+public:
     int name;
     int arrTime;
     std::vector <int> burstTime; // Even = CPU - Odd = Resources

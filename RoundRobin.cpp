@@ -17,7 +17,7 @@ void RoundRobin::checkAndUpdateQuantumTime(int &tempQuantum){
     }
 }
 
-void RoundRobin::excuted(){
+void RoundRobin::executed(){
     std::vector <Process*> addressToPush_ReadyQueue;
     std::vector <Process*> addressToPush_ListR;
     int curTime = 0;
@@ -26,7 +26,7 @@ void RoundRobin::excuted(){
         if (checkOut(processes) == true){
             break;
         }
-        // Put process into CPU     P2 arr = 2
+        // Put process into readyQueue
         for (int i = 0; i < processes.size();i ++){
             if (processes[i].arrTime == curTime){
                 readyQueue.push_back(&processes[i]);

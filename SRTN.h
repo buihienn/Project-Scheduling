@@ -7,5 +7,5 @@ class SRTN : public Scheduler {
 public:
     SRTN() {}
     SRTN(std::vector <Process> &processes);
-    void excuted() override;
+    void executed() override;
 };

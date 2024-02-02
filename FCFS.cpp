@@ -4,7 +4,7 @@ FCFS::FCFS(std::vector <Process> &processes){
     this->processes = processes;
 }
 
-void FCFS::excuted(){
+void FCFS::executed(){
     std::vector <Process*> addressToPush_ReadyQueue;
     std::vector <Process*> addressToPush_ListR;
     int curTime = 0;
@@ -12,7 +12,7 @@ void FCFS::excuted(){
         if (checkOut(processes) == true){
             break;
         }
-        // Put process into CPU
+        // Put process into readyQueue
         for (int i = 0; i < processes.size();i ++){
             if (processes[i].arrTime == curTime){
                 readyQueue.push_back(&processes[i]);

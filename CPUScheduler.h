@@ -15,7 +15,7 @@ protected:
 public:
     Scheduler(){}
 
-    virtual void excuted() = 0;
+    virtual void executed() = 0;
     void exportData(std::string filename);
     void calTurnaroundTime();
     void calWaitingTime();

@@ -4,7 +4,7 @@ SRTN::SRTN(std::vector <Process> &processes){
     this->processes = processes;
 }
 
-void SRTN::excuted(){
+void SRTN::executed(){
     std::vector<Process*> tempR;
     std::vector<Process*> tempReadyQueue;
     int curTime = 0;
