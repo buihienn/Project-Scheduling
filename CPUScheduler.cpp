@@ -1,37 +1,37 @@
 #include "CPUScheduler.h"
  
  void Scheduler::exportData(std::string filename){
-    std::ofstream fileout(filename, std::ios::out);
-    if (!fileout){
+    std::ofstream os(filename, std::ios::out);
+    if (!os){
         std::cout <<"Can't open file out \n";
         return; 
     }
     for (int i = 0; i < CPU.size(); i++){
         if (CPU[i] == 0){
-            fileout << "_ ";
+            os << "_ ";
         }
         else {
-            fileout << CPU[i] << " ";
+            os << CPU[i] << " ";
         }
     }
-    fileout << "\n";
+    os << "\n";
 
     for (int i = 0; i < R.size(); i++){
         if (R[i] == 0){
-            fileout << "_ ";
+            os << "_ ";
         }
         else {
-            fileout << R[i] << " ";
+            os << R[i] << " ";
         }
     }
-    fileout << "\n";
+    os << "\n";
 
     for (int i = 0; i < processes.size(); i++){
-        fileout <<processes[i].turnaroundTime << " ";
+        os <<processes[i].turnaroundTime << " ";
     }
-    fileout << std::endl;
+    os << std::endl;
     for (int i = 0; i < processes.size(); i++){
-        fileout <<processes[i].waitingTime << " ";
+        os <<processes[i].waitingTime << " ";
     }
 }
 
@@ -56,24 +56,24 @@ void Scheduler::calTurnaroundTime(){
 }
 
 void Scheduler::calWaitingTime(){
-    // Y tuong luu cac doan P ket thuc va Tiep tuc chay lai roi tru di cac noi khong phai waiting time!
+    // Idea: store the starts and ends of each curriculum and minus which is not waiting time.
     for (int i = 0; i < processes.size();i++){
         std::vector <int> posInCPU; 
-        // index 0 is used to cal waitingTime of arrivalTime - // others is cal waiting for other processing.
-        // Index 0 
+        // index 0 is used to calculate waitingTime by substracting it with arrivalTime  
+        // others are used to calculate waiting time for the curriculums.
         if (processes[i].name == CPU[0]){
             posInCPU.push_back(0);
             if (CPU[1] != processes[i].name){
                 posInCPU.push_back(0);
             }
         }
-        // Save pos process in CPU
+        // Save position of processes in CPU
         for (int j = 1; j < CPU.size() - 1; j++){
             if(posInCPU.empty()){
                 if (CPU[j] == processes[i].name){
                     posInCPU.push_back(j);
                 }
-                // Case: P is alone
+                // Case: P stand alone
                 if (CPU[j] == processes[i].name && CPU[j+1] != processes[i].name){
                     posInCPU.push_back(j);
                 }
@@ -88,28 +88,29 @@ void Scheduler::calWaitingTime(){
                 }
             }
         }
-        // Index last 
+        // Index last: case numbers of CPU > numbers of Resources
         if (processes[i].name == CPU[CPU.size() -1] && CPU[CPU.size() - 2] != processes[i].name){
             posInCPU.push_back(CPU.size() -1);
         }
-        // Save pos process in Resources
-        int temp = (posInCPU.size() - 1) /2; // So khoang can tinh
-        int indexPosCPU = 1; // chi lay so le vi posInCPU[0] la de tinh ArrivalTime
+        // Save position of processes in Resources
+        int temp = (posInCPU.size() - 1) /2; // numbers of curriculum
+        // That mean we care about index 1 -> index 2. index 3 -> index 4 .....
+        int indexPosCPU = 1; // only takes odd index to calculate waiting time -bc it seperates into curriculum. 
         for (int j = 1; j <= temp; j++){
             bool flag = false;
             for (int k = posInCPU[indexPosCPU] + 1; k <= posInCPU[indexPosCPU +1]; k++){
                 if (R[k] == processes[i].name && R[k+1] != processes[i].name){
                     processes[i].waitingTime += posInCPU[indexPosCPU+1] - k - 1;
-                    flag = true;
+                    flag = true; 
                 }
             }
-            // Case: Khong co  P trong R o khoang nay
+            // Case: No process in Resources at this curriculum
             if (flag == false){
                 processes[i].waitingTime += posInCPU[indexPosCPU+1] - posInCPU[indexPosCPU] - 1;
             }
             indexPosCPU += 2; 
         }
-        // Cal WaitingTime
+        // Finally, add up the number of times the process first ran minus arrTime
         processes[i].waitingTime += posInCPU[0] - processes[i].arrTime;
     }
 }

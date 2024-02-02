@@ -10,4 +10,14 @@
 #include "process.h"
 
 
-void inputData(std::string filename, std::vector <Process> &processes,int &ID_Algorithm, int &quantumTime);
+class Inputdata {
+public:
+    std::vector <Process> processes;
+    int ID_Algorithm;
+    int quantumTime;
+    Inputdata (const std::string &filename);
+
+    void readData(const std::string &filename);
+};
+
+// void inputData(std::string filename, std::vector <Process> &processes,int &ID_Algorithm, int &quantumTime);
