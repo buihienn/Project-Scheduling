@@ -1,32 +1,37 @@
 #include "CPUScheduler.h"
  
- void Scheduler::exportData(){
+ void Scheduler::exportData(std::string filename){
+    std::ofstream fileout(filename, std::ios::out);
+    if (!fileout){
+        std::cout <<"Can't open file out \n";
+        return; 
+    }
     for (int i = 0; i < CPU.size(); i++){
         if (CPU[i] == 0){
-            std::cout << "_ ";
+            fileout << "_ ";
         }
         else {
-            std::cout << CPU[i] << " ";
+            fileout << CPU[i] << " ";
         }
     }
-    std::cout << "\n" << CPU.size() << "\n";
+    fileout << "\n";
 
     for (int i = 0; i < R.size(); i++){
         if (R[i] == 0){
-            std::cout << "_ ";
+            fileout << "_ ";
         }
         else {
-            std::cout << R[i] << " ";
+            fileout << R[i] << " ";
         }
     }
-    std::cout << "\n" << R.size() << "\n";
+    fileout << "\n";
 
     for (int i = 0; i < processes.size(); i++){
-        std::cout <<processes[i].turnaroundTime << " ";
+        fileout <<processes[i].turnaroundTime << " ";
     }
-    std::cout << std::endl;
+    fileout << std::endl;
     for (int i = 0; i < processes.size(); i++){
-        std::cout <<processes[i].waitingTime << " ";
+        fileout <<processes[i].waitingTime << " ";
     }
 }
 
@@ -51,9 +56,10 @@ void Scheduler::calTurnaroundTime(){
 }
 
 void Scheduler::calWaitingTime(){
-    // Y tuong luu cac doan P ket thuc va Tiep tuc chay lai roi tru di cac noi khong phai waiting!
+    // Y tuong luu cac doan P ket thuc va Tiep tuc chay lai roi tru di cac noi khong phai waiting time!
     for (int i = 0; i < processes.size();i++){
-        std::vector <int> posInCPU; // index 0 is used to cal waitingTime of arrivalTime - // others is cal waiting for other processing.
+        std::vector <int> posInCPU; 
+        // index 0 is used to cal waitingTime of arrivalTime - // others is cal waiting for other processing.
         // Index 0 
         if (processes[i].name == CPU[0]){
             posInCPU.push_back(0);
@@ -73,12 +79,16 @@ void Scheduler::calWaitingTime(){
                 }
             }
             else {
+                if ((CPU[j] == processes[i].name && CPU[j -1] != processes[i].name) && (CPU[j] == processes[i].name && CPU[j + 1] != processes[i].name)){
+                    posInCPU.push_back(j);
+
+                }
                 if ((CPU[j] == processes[i].name && CPU[j -1] != processes[i].name) || (CPU[j] == processes[i].name && CPU[j + 1] != processes[i].name)){
                     posInCPU.push_back(j);
                 }
             }
         }
-        // Index last
+        // Index last 
         if (processes[i].name == CPU[CPU.size() -1] && CPU[CPU.size() - 2] != processes[i].name){
             posInCPU.push_back(CPU.size() -1);
         }

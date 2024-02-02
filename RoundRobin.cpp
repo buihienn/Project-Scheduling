@@ -22,20 +22,17 @@ void RoundRobin::excuted(){
     std::vector <Process*> addressToPush_ListR;
     int curTime = 0;
     int tempQuantum = quantumTime;
-    sort(processes.begin(), processes.end(), [](Process& a,Process& b) {
-        return a.arrTime <= b.arrTime;
-    });
     while (true){
         if (checkOut(processes) == true){
             break;
         }
-        // Put process into CPU
+        // Put process into CPU     P2 arr = 2
         for (int i = 0; i < processes.size();i ++){
             if (processes[i].arrTime == curTime){
                 readyQueue.push_back(&processes[i]);
             }
         }
-
+        
         checkAndUpdateQuantumTime(tempQuantum);
 
         checkToPush(addressToPush_ListR, listR);

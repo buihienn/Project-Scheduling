@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     scheduler->excuted();
-    scheduler->exportData();
+    scheduler->exportData(argv[2]);
     delete scheduler;
     
     return 0;

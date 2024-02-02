@@ -1,5 +1,8 @@
 #pragma once
 #include "Process.h"
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <iostream>
 
 class Scheduler {
@@ -13,7 +16,7 @@ public:
     Scheduler(){}
 
     virtual void excuted() = 0;
-    void exportData();
+    void exportData(std::string filename);
     void calTurnaroundTime();
     void calWaitingTime();
     bool checkOut(std::vector <Process>& processes);

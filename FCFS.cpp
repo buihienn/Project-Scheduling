@@ -7,10 +7,6 @@ FCFS::FCFS(std::vector <Process> &processes){
 void FCFS::excuted(){
     std::vector <Process*> addressToPush_ReadyQueue;
     std::vector <Process*> addressToPush_ListR;
-    // Sort arrivalTime
-    sort(processes.begin(), processes.end(), [](Process& a,Process& b) {
-        return a.arrTime <= b.arrTime;
-    });
     int curTime = 0;
     while(true){
         if (checkOut(processes) == true){
