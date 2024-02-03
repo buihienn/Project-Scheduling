@@ -32,11 +32,11 @@ void RoundRobin::executed(){
                 readyQueue.push_back(&processes[i]);
             }
         }
-        
-        checkAndUpdateQuantumTime(tempQuantum);
 
         checkToPush(addressToPush_ListR, listR);
         checkToPush(addressToPush_ReadyQueue, readyQueue);
+
+        checkAndUpdateQuantumTime(tempQuantum);
 
         if  (!readyQueue.empty()){
             CPU.push_back(readyQueue[0]->name);
@@ -44,7 +44,7 @@ void RoundRobin::executed(){
             tempQuantum--;
             if (readyQueue[0]->burstTime[readyQueue[0]->status] == 0){
                 readyQueue[0]->status++;
-                tempQuantum = quantumTime;
+                tempQuantum = quantumTime; // Update quantum Time
                 if (readyQueue[0]->status < readyQueue[0]->burstTime.size()){
                     addressToPush_ListR.push_back(readyQueue[0]);
                 }

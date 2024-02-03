@@ -2,7 +2,7 @@
 
 void Programming::run(char *input, char* output){
     Inputdata inputData(input);
-    Scheduler *scheduler = NULL;
+    Scheduler *scheduler = nullptr;
 
     if (inputData.ID_Algorithm == 1){
         scheduler = new FCFS(inputData.processes);
